@@ -1,0 +1,11 @@
+{
+    "name": "MedicalRecord",
+    "alias": "medicalrecord",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MedicalRecord\\Providers\\MedicalRecordServiceProvider"
+    ],
+    "files": []
+}
