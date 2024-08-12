@@ -4,6 +4,9 @@ namespace Modules\Diagnosis\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Container\Attributes\Log;
+use Symfony\Polyfill\Intl\Idn\Info;
 
 class DiagnosisServiceProvider extends ServiceProvider
 {
@@ -22,6 +25,9 @@ class DiagnosisServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        DB::listen(function ($query) {
+            \Illuminate\Support\Facades\Log::info($query->sql, $query->bindings);
+        });
     }
 
     /**

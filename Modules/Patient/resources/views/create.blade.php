@@ -1,4 +1,4 @@
-@extends('patient::layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="mt-5">

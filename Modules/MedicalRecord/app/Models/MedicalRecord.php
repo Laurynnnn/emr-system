@@ -37,12 +37,12 @@ class MedicalRecord extends Model
 
     public function labTests()
     {
-        return $this->hasMany(LabTest::class);
+        return $this->belongsToMany(LabTest::class);
     }
 
     public function diagnoses()
     {
-        return $this->hasMany(Diagnosis::class);
+        return $this->belongsToMany(Diagnosis::class);
     }
 
     // protected static function newFactory(): MedicalRecordFactory

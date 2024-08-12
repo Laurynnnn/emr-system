@@ -2,66 +2,51 @@
 
 namespace Modules\Clinic\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
+use Modules\Clinic\Models\Clinic;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Modules\Clinic\Http\Requests\StoreClinicRequest;
+use Modules\Clinic\Http\Requests\UpdateClinicRequest;
+use Illuminate\Routing\Controller;
+use Illuminate\Http\RedirectResponse;
 
 class ClinicController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('clinic::index');
+        $clinics = Clinic::paginate(10); 
+        return view('clinic::index', compact('clinics'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('clinic::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreClinicRequest $request)
     {
-        //
+        Clinic::create($request->validated());
+        return redirect()->route('clinics.index')->with('success', 'Clinic created successfully.');
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function show(Clinic $clinic)
     {
-        return view('clinic::show');
+        return view('clinic::show', compact('clinic'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(Clinic $clinic)
     {
-        return view('clinic::edit');
+        return view('clinic::edit', compact('clinic'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(UpdateClinicRequest $request, Clinic $clinic): RedirectResponse
     {
-        //
+        $clinic->update($request->validated());
+        return redirect()->route('clinics.index')->with('success', 'Clinic updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+    public function destroy(Clinic $clinic)
     {
-        //
+        $clinic->delete();
+        return redirect()->route('clinics.index')->with('success', 'Clinic deleted successfully.');
     }
 }

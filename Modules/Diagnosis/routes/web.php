@@ -13,7 +13,8 @@ use Modules\Diagnosis\Http\Controllers\DiagnosisController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::resource('diagnoses', DiagnosisController::class);
 
-Route::group([], function () {
-    Route::resource('diagnosis', DiagnosisController::class)->names('diagnosis');
-});
+// Route::group([], function () {
+//     Route::resource('diagnosis', DiagnosisController::class)->names('diagnosis');
+// });

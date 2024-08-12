@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Lab\Http\Controllers\LabController;
+use Modules\Lab\Http\Controllers\LabTestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +13,9 @@ use Modules\Lab\Http\Controllers\LabController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::resource('lab_tests', LabTestController::class);
 
-Route::group([], function () {
-    Route::resource('lab', LabController::class)->names('lab');
-});
+
+// Route::group([], function () {
+//     Route::resource('lab', LabController::class)->names('lab');
+// });

@@ -14,6 +14,8 @@ use Modules\Clinic\Http\Controllers\ClinicController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('clinic', ClinicController::class)->names('clinic');
-});
+Route::resource('clinics', ClinicController::class);
+
+// Route::group([], function () {
+//     Route::resource('clinic', ClinicController::class)->names('clinic');
+// });

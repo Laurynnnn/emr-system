@@ -2,66 +2,50 @@
 
 namespace Modules\Diagnosis\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Modules\Diagnosis\Models\Diagnosis;
+use Modules\Diagnosis\Http\Requests\StoreDiagnosisRequest;
+use Modules\Diagnosis\Http\Requests\UpdateDiagnosisRequest;
+use Illuminate\Routing\Controller;
 
 class DiagnosisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('diagnosis::index');
+        $diagnoses = Diagnosis::paginate(10);
+        return view('diagnosis::index', compact('diagnoses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('diagnosis::create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreDiagnosisRequest $request)
     {
-        //
+        Diagnosis::create($request->validated());
+        return redirect()->route('diagnoses.index')->with('success', 'Diagnosis created successfully.');
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
+    public function show(Diagnosis $diagnosis)
     {
-        return view('diagnosis::show');
+        return view('diagnosis::show', compact('diagnosis'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(Diagnosis $diagnosis)
     {
-        return view('diagnosis::edit');
+        return view('diagnosis::edit', compact('diagnosis'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(UpdateDiagnosisRequest $request, Diagnosis $diagnosis)
     {
-        //
+        $diagnosis->update($request->validated());
+        return redirect()->route('diagnoses.index')->with('success', 'Diagnosis updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
+
+    public function destroy(Diagnosis $diagnosis)
     {
-        //
+        $diagnosis->delete();
+        return redirect()->route('diagnoses.index')->with('success', 'Diagnosis deleted successfully.');
     }
 }

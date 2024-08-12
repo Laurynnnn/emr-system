@@ -1,4 +1,4 @@
-@extends('patient::layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Patients')
 

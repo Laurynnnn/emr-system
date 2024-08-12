@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('patient_id')->constrained()->onDelete('cascade');
             $table->foreignId('doctor_id')->nullable()->constrained('users')->onDelete('set null'); // Referencing users table
             $table->text('symptoms');
-            $table->text('lab_tests'); // Store as JSON or use a separate table if necessary
-            $table->text('medical_diagnoses'); // Store as JSON or use a separate table if necessary
+            $table->text('lab_tests'); 
+            $table->text('medical_diagnoses');
             $table->text('treatment_given');
             $table->enum('outcome', ['admitted', 'died', 'referred', 'discharged']);
             $table->timestamps();

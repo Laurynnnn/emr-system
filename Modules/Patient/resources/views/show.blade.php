@@ -1,4 +1,4 @@
-@extends('patient::layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Patient Details')
 
@@ -61,5 +61,7 @@
     </div>
     <a href="{{ route('patients.index') }}" class="btn btn-secondary mt-3">Back to Patients List</a>
     <a href="{{ route('medical_records.create', $patient->id) }}" class="btn btn-primary mt-3">Create New Medical Record</a>
+    {{-- <a href="{{ route('medical_records.index', $patient->id) }}" class="btn btn-info mt-3">View Medical Record</a> --}}
+    <a href="{{ route('patients.medical-records.index', $patient->id) }}" class="btn btn-info mt-3">View Medical Records</a>
 </div>
 @endsection

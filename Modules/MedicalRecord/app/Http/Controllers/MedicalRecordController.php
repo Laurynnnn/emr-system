@@ -2,66 +2,122 @@
 
 namespace Modules\MedicalRecord\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
+use Modules\MedicalRecord\Models\MedicalRecord;
+use Modules\Patient\Models\Patient;
+use Modules\Lab\Models\LabTest;
+use Modules\Diagnosis\Models\Diagnosis;
+use Modules\Pharmacy\Models\Drug;
+
 
 class MedicalRecordController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show the form for creating a new medical record.
      */
-    public function index()
+    public function index($patient_id = null)
     {
-        return view('medicalrecord::index');
+        if (!$patient_id) {
+            return redirect()->route('patients.index')->with('error', 'Please select a patient first.');
+        }
+
+        $patient = Patient::findOrFail($patient_id);
+        $medicalRecords = MedicalRecord::where('patient_id', $patient_id)->paginate(10);
+
+        return view('medicalrecord::index', compact('patient', 'medicalRecords'));
+    }
+
+
+    public function create(Patient $patient)
+    {
+        // Fetch lab tests, diagnoses, and drugs if needed
+        $labTests = LabTest::all();
+        $diagnoses = Diagnosis::all();
+        $drugs = Drug::all();
+
+        return view('medicalrecord::create', compact('patient', 'labTests', 'diagnoses', 'drugs'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created medical record in storage.
      */
-    public function create()
+    public function store(Request $request)
     {
-        return view('medicalrecord::create');
+        $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_id' => 'nullable|exists:users,id',
+            'symptoms' => 'required|string',
+            'lab_tests' => 'nullable|array',
+            'medical_diagnoses' => 'nullable|array',
+            'treatment_given' => 'required|string',
+            'outcome' => 'required|in:admitted,died,referred,discharged',
+        ]);
+
+        $medicalRecord = MedicalRecord::create([
+            'patient_id' => $request->input('patient_id'),
+            'doctor_id' => $request->input('doctor_id'),
+            'symptoms' => $request->input('symptoms'),
+            'lab_tests' => json_encode($request->input('lab_tests')),
+            'medical_diagnoses' => json_encode($request->input('medical_diagnoses')),
+            'treatment_given' => $request->input('treatment_given'),
+            'outcome' => $request->input('outcome'),
+        ]);
+
+        return redirect()->route('patients.show', $request->input('patient_id'))->with('success', 'Medical record created successfully.');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display the specified medical record.
      */
-    public function store(Request $request): RedirectResponse
+    public function show(MedicalRecord $medicalRecord)
     {
-        //
+        return view('medicalrecord::show', compact('medicalRecord'));
     }
 
     /**
-     * Show the specified resource.
+     * Show the form for editing the specified medical record.
      */
-    public function show($id)
+    public function edit(MedicalRecord $medicalRecord)
     {
-        return view('medicalrecord::show');
+        $labTests = LabTest::all();
+        $diagnoses = Diagnosis::all();
+        $drugs = Drug::all();
+
+        return view('medicalrecord::edit', compact('medicalRecord', 'labTests', 'diagnoses', 'drugs'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified medical record in storage.
      */
-    public function edit($id)
+    public function update(Request $request, MedicalRecord $medicalRecord)
     {
-        return view('medicalrecord::edit');
+        $request->validate([
+            'symptoms' => 'required|string',
+            'lab_tests' => 'nullable|array',
+            'medical_diagnoses' => 'nullable|array',
+            'treatment_given' => 'required|string',
+            'outcome' => 'required|in:admitted,died,referred,discharged',
+        ]);
+
+        $medicalRecord->update([
+            'symptoms' => $request->input('symptoms'),
+            'lab_tests' => json_encode($request->input('lab_tests')),
+            'medical_diagnoses' => json_encode($request->input('medical_diagnoses')),
+            'treatment_given' => $request->input('treatment_given'),
+            'outcome' => $request->input('outcome'),
+        ]);
+
+        return redirect()->route('patients.show', $medicalRecord->patient_id)->with('success', 'Medical record updated successfully.');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Remove the specified medical record from storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function destroy(MedicalRecord $medicalRecord)
     {
-        //
-    }
+        $medicalRecord->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect()->route('patients.show', $medicalRecord->patient_id)->with('success', 'Medical record deleted successfully.');
     }
 }

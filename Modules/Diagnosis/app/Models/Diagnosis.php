@@ -13,15 +13,13 @@ class Diagnosis extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'medical_record_id',
         'name',
-        'icd_code',
-        'is_primary',
+        'icd11_code',
     ];
 
     public function medicalRecord()
     {
-        return $this->belongsTo(MedicalRecord::class);
+        return $this->belongsToMany(MedicalRecord::class);
     }
 
     // protected static function newFactory(): DiagnosisFactory

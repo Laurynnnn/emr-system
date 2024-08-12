@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Pharmacy\Http\Controllers\PharmacyController;
+use Modules\Pharmacy\Http\Controllers\DrugController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,8 @@ use Modules\Pharmacy\Http\Controllers\PharmacyController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('pharmacy', PharmacyController::class)->names('pharmacy');
-});
+// Route::group([], function () {
+//     Route::resource('pharmacy', PharmacyController::class)->names('pharmacy');
+// });
+
+Route::resource('drugs', DrugController::class);

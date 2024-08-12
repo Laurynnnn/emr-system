@@ -39,9 +39,11 @@
         </div>
         <div class="nav flex-column">
             <a class="nav-link {{ request()->routeIs('patients.*') ? 'active' : '' }}" href="{{ route('patients.index') }}">Patients</a>
-            <a class="nav-link {{ request()->routeIs('medical-records.*') ? 'active' : '' }}" href="{{ route('patients.index') }}">Medical Records</a>
-            <a class="nav-link {{ request()->routeIs('labs.*') ? 'active' : '' }}" href="{{ route('patients.index') }}">Labs</a>
-            <a class="nav-link {{ request()->routeIs('pharmacy.*') ? 'active' : '' }}" href="{{ route('patients.index') }}">Pharmacy</a>
+            {{-- <a class="nav-link {{ request()->routeIs('medical_records.*') ? 'active' : '' }}" href="{{ route('medical_records.index') }}">Medical Records</a> --}}
+            <a class="nav-link {{ request()->routeIs('lab_tests.*') ? 'active' : '' }}" href="{{ route('lab_tests.index') }}">Lab</a>
+            <a class="nav-link {{ request()->routeIs('pharmacy.*') ? 'active' : '' }}" href="{{ route('drugs.index') }}">Pharmacy</a>
+            <a class="nav-link {{ request()->routeIs('clinics.*') ? 'active' : '' }}" href="{{ route('clinics.index') }}">Clinics</a>
+            <a class="nav-link {{ request()->routeIs('diagnoses.*') ? 'active' : '' }}" href="{{ route('diagnoses.index') }}">Diagnoses</a>
         </div>
     </div>
     <div class="content">

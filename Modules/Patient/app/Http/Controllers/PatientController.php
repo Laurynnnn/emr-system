@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Patient\Models\Patient; // Import the Patient model
+use Modules\Patient\Models\Patient;
 use Illuminate\Support\Facades\Validator;
 
 class PatientController extends Controller

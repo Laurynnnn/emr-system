@@ -13,7 +13,6 @@ class LabTest extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'medical_record_id',
         'name',
         'duration',
         'results',
@@ -21,7 +20,7 @@ class LabTest extends Model
 
     public function medicalRecord()
     {
-        return $this->belongsTo(MedicalRecord::class);
+        return $this->belongsToMany(MedicalRecord::class);
     }
 
     // protected static function newFactory(): LabTestFactory

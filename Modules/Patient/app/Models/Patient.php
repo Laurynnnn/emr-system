@@ -29,7 +29,7 @@ class Patient extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->patient_number = 'SH-' . str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT);
+            $model->patient_number = 'SH-' . str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT); //Generating patient number
         });
     }
 

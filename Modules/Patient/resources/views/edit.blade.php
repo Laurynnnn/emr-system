@@ -1,5 +1,5 @@
 <!-- resources/views/patients/edit.blade.php -->
-@extends('patient::layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Edit Patient')
 
