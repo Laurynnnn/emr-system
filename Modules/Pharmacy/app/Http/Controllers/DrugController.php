@@ -51,10 +51,26 @@ class DrugController extends Controller
         return redirect()->route('drugs.index')->with('success', 'Drug deleted successfully.');
     }
 
+    //Viewing inactive drugs
+    public function inactive()
+    {
+        $drugs = Drug::onlyTrashed()->paginate(10);
+        return view('pharmacy::drugs.inactive', compact('drugs'));
+    }
+
     public function reactivate($id)
     {
-        $drug = Drug::withTrashed()->find($id);
+        $drug = Drug::withTrashed()->findOrFail($id);
         $drug->restore();
-        return redirect()->route('drugs.index')->with('success', 'Drug reactivated successfully.');
+        return redirect()->route('drugs.inactive')->with('success', 'Drug reactivated successfully.');
+    }
+
+    public function show_inactive($id)
+    {
+        // Fetch the trashed drug
+        $drug = Drug::onlyTrashed()->findOrFail($id);
+
+        // Return the view with drug data
+        return view('pharmacy::drugs.show_inactive', compact('drug'));
     }
 }

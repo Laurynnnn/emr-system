@@ -49,4 +49,27 @@ class ClinicController extends Controller
         $clinic->delete();
         return redirect()->route('clinics.index')->with('success', 'Clinic deleted successfully.');
     }
+
+    //Viewing inactive clinics
+    public function inactive()
+    {
+        $clinics = Clinic::onlyTrashed()->paginate(10);
+        return view('clinic::inactive', compact('clinics'));
+    }
+
+    public function reactivate($id)
+    {
+        $clinic = clinic::withTrashed()->findOrFail($id);
+        $clinic->restore();
+        return redirect()->route('clinics.inactive')->with('success', 'clinic reactivated successfully.');
+    }
+
+    public function show_inactive($id)
+    {
+        // Fetch the trashed clinic
+        $clinic = clinic::onlyTrashed()->findOrFail($id);
+
+        // Return the view with clinic data
+        return view('clinic::show_inactive', compact('clinic'));
+    }
 }

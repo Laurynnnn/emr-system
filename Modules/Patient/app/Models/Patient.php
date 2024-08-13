@@ -27,7 +27,7 @@ class Patient extends Model
     protected static function boot()
     {
         parent::boot();
-
+        //Put this in observer
         static::creating(function ($model) {
             $model->patient_number = 'SH-' . str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT); //Generating patient number
         });
@@ -47,8 +47,4 @@ class Patient extends Model
         return $this->hasMany(Appointment::class);
     }
 
-    // protected static function newFactory(): PatientFactory
-    // {
-    //     //return PatientFactory::new();
-    // }
 }

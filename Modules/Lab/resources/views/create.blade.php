@@ -26,8 +26,9 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <input type="hidden" name="authenticated" value="0">
             <div class="form-check">
-                <input type="checkbox" id="authenticated" name="authenticated" class="form-check-input" {{ old('authenticated') ? 'checked' : '' }}>
+                <input type="checkbox" id="authenticated" name="authenticated" class="form-check-input" value="1" {{ old('authenticated') ? 'checked' : '' }}>
                 <label for="authenticated" class="form-check-label">Authenticated by senior lab technician</label>
             </div>
             <button type="submit" class="btn btn-primary mt-3">Create</button>

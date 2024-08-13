@@ -4,10 +4,9 @@ namespace Modules\Patient\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Modules\Patient\Models\Patient;
-use Illuminate\Support\Facades\Validator;
+use Modules\Patient\Http\Requests\StorePatientRequest;
+use Modules\Patient\Http\Requests\UpdatePatientRequest;
 
 class PatientController extends Controller
 {
@@ -31,26 +30,10 @@ class PatientController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StorePatientRequest $request): RedirectResponse
     {
-        // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'gender' => 'required|in:male,female,other',
-            'date_of_birth' => 'required|date',
-            'phone_number' => 'nullable|string|max:15',
-            'next_of_kin_name' => 'required|string|max:255',
-            'next_of_kin_relationship' => 'required|in:mother,father,daughter,son,brother,sister',
-            'next_of_kin_phone_number' => 'required|string|max:15',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
         // Create a new patient
-        Patient::create($request->all());
+        Patient::create($request->validated());
 
         return redirect()->route('patients.index')->with('success', 'Patient created successfully.');
     }
@@ -76,32 +59,53 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(UpdatePatientRequest $request, $id): RedirectResponse
     {
         $patient = Patient::findOrFail($id);
 
-        // Validate the request data
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'gender' => 'required|in:male,female,other',
-            'date_of_birth' => 'required|date',
-            'phone_number' => 'nullable|string|max:15',
-            'next_of_kin_name' => 'required|string|max:255',
-            'next_of_kin_relationship' => 'required|in:mother,father,daughter,son,brother,sister',
-            'next_of_kin_phone_number' => 'required|string|max:15',
-        ]);
+        // Update patient with validated data
+        $patient->update($request->validated());
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+        return redirect()->route('patients.index')->with('success', 'Patient updated successfully.');
     }
 
+    public function destroy($id): RedirectResponse
+    {
+        $patient = Patient::findOrFail($id);
+
+        // Soft delete the patient record
+        $patient->delete();
+
+        return redirect()->route('patients.index')->with('success', 'Patient deleted successfully.');
+    }
+
+    //Viewing inactive patients
+    public function inactive()
+    {
+        $patients = Patient::onlyTrashed()->get();
+        return view('patient::inactive', compact('patients'));
+    }
+
+
+    /**
+     * Reactivate the specified resource.
+     */
     public function reactivate($id): RedirectResponse
     {
         $patient = Patient::withTrashed()->findOrFail($id);
         $patient->restore();
 
-        return redirect()->route('patients.index')->with('success', 'Patient reactivated successfully.');
+        return redirect()->route('patients.inactive')->with('success', 'Patient reactivated successfully.');
     }
+
+    public function show_inactive($id)
+    {
+        // Fetch the trashed patient
+        $patient = Patient::onlyTrashed()->findOrFail($id);
+
+        // Return the view with patient data
+        return view('patient::show_inactive', compact('patient'));
+    }
+
+
 }

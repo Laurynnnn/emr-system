@@ -48,4 +48,27 @@ class DiagnosisController extends Controller
         $diagnosis->delete();
         return redirect()->route('diagnoses.index')->with('success', 'Diagnosis deleted successfully.');
     }
+
+    //Viewing inactive diagnosiss
+    public function inactive()
+    {
+        $diagnoses = Diagnosis::onlyTrashed()->paginate(10);
+        return view('diagnosis::inactive', compact('diagnoses'));
+    }
+
+    public function reactivate($id)
+    {
+        $diagnosis = Diagnosis::withTrashed()->findOrFail($id);
+        $diagnosis->restore();
+        return redirect()->route('diagnoses.inactive')->with('success', 'diagnosis reactivated successfully.');
+    }
+
+    public function show_inactive($id)
+    {
+        // Fetch the trashed diagnosis
+        $diagnosis = Diagnosis::onlyTrashed()->findOrFail($id);
+
+        // Return the view with diagnosis data
+        return view('diagnosis::show_inactive', compact('diagnosis'));
+    }
 }

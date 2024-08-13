@@ -20,7 +20,7 @@ class UpdateClinicRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255',
+                'max:50',
                 'unique:clinics,name,' . $clinicId,
             ],
         ];

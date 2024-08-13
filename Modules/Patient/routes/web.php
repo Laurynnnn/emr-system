@@ -18,3 +18,10 @@ use Modules\Patient\Http\Controllers\PatientController;
 //     Route::resource('patient', PatientController::class)->names('patient');
 // });
 Route::resource('patients', PatientController::class);
+Route::get('/patient/inactive', [PatientController::class, 'inactive'])->name('patients.inactive');
+Route::patch('/patient/reactivate/{id}', [PatientController::class, 'reactivate'])->name('patients.reactivate');
+Route::get('patient/trashed/{id}', [PatientController::class, 'show_inactive'])->name('patients.show_inactive');
+
+
+
+

@@ -15,6 +15,9 @@ use Modules\Clinic\Http\Controllers\ClinicController;
 */
 
 Route::resource('clinics', ClinicController::class);
+Route::get('/clinic/inactive', [ClinicController::class, 'inactive'])->name('clinics.inactive');
+Route::patch('/clinic/reactivate/{id}', [ClinicController::class, 'reactivate'])->name('clinics.reactivate');
+Route::get('clinic/trashed/{id}', [ClinicController::class, 'show_inactive'])->name('clinics.show_inactive');
 
 // Route::group([], function () {
 //     Route::resource('clinic', ClinicController::class)->names('clinic');

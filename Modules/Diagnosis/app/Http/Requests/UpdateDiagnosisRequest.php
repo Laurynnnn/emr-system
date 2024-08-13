@@ -20,7 +20,7 @@ class UpdateDiagnosisRequest extends FormRequest
         // Log::info('Diagnosis ID:', ['id' => $diagnosisId]);
 
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:100',
             'icd11_code' => 'required|string|max:10|unique:diagnoses,icd11_code,' . $this->route('diagnosis')->id,
         ];
     }

@@ -14,7 +14,7 @@ class StoreClinicRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:clinics,name',
+            'name' => 'required|string|max:50|unique:clinics,name',
         ];
     }
 

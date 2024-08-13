@@ -14,6 +14,9 @@ use Modules\Diagnosis\Http\Controllers\DiagnosisController;
 |
 */
 Route::resource('diagnoses', DiagnosisController::class);
+Route::get('/diagnosis/inactive', [DiagnosisController::class, 'inactive'])->name('diagnoses.inactive');
+Route::patch('/diagnosis/reactivate/{id}', [DiagnosisController::class, 'reactivate'])->name('diagnoses.reactivate');
+Route::get('diagnosis/trashed/{id}', [DiagnosisController::class, 'show_inactive'])->name('diagnoses.show_inactive');
 
 // Route::group([], function () {
 //     Route::resource('diagnosis', DiagnosisController::class)->names('diagnosis');
