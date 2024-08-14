@@ -38,6 +38,10 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    
+    Route::get('/user/inactive', [UserController::class, 'inactive'])->name('users.inactive');
+    Route::patch('/user/reactivate/{id}', [UserController::class, 'reactivate'])->name('users.reactivate');
+    Route::get('user/trashed/{id}', [UserController::class, 'show_inactive'])->name('users.show_inactive');
 });
 
 

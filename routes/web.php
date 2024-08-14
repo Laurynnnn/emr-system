@@ -4,6 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 // Redirect root route to the register page
 Route::get('/', function () {
-    return redirect()->route('register');
+    return redirect()->route('login');
 });
 

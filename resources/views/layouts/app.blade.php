@@ -133,6 +133,16 @@
                     <a class="nav-link sub-link {{ request()->routeIs('diagnoses.inactive') ? 'active' : '' }}" href="{{ route('diagnoses.inactive') }}">Inactive Diagnoses</a>
                 </div>
 
+                <!-- Users Main Link with Sub-links -->
+                <a class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}" data-toggle="collapse" href="#usersSubmenu" role="button" aria-expanded="{{ request()->routeIs('users.*') ? 'true' : 'false' }}" aria-controls="usersSubmenu">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <div class="collapse {{ request()->routeIs('users.*') ? 'show' : '' }}" id="usersSubmenu">
+                    <a class="nav-link sub-link {{ request()->routeIs('users.index') ? 'active' : '' }}" href="{{ route('users.index') }}">Active Users</a>
+                    <a class="nav-link sub-link {{ request()->routeIs('users.inactive') ? 'active' : '' }}" href="{{ route('users.inactive') }}">Inactive Users</a>
+                    <a class="nav-link sub-link {{ request()->routeIs('users.create') ? 'active' : '' }}" href="{{ route('users.create') }}">Add User</a>
+                </div>
+
                 <!-- Logout Button -->
                 @if(Auth::check())
                 <div class="logout">
