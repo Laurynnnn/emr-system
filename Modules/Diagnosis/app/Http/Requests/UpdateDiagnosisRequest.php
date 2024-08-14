@@ -21,7 +21,7 @@ class UpdateDiagnosisRequest extends FormRequest
 
         return [
             'name' => 'required|string|max:100',
-            'icd11_code' => 'required|string|max:10|unique:diagnoses,icd11_code,' . $this->route('diagnosis')->id,
+            'icd11_code' => 'required|string|max:10|unique:diagnoses,icd11_code,',
         ];
     }
 

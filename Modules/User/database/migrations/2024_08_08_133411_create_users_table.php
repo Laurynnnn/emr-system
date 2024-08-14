@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role')->default('staff'); // Add a role column to distinguish doctors, nurses, etc.
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -28,24 +28,28 @@ class ClinicController extends Controller
         return redirect()->route('clinics.index')->with('success', 'Clinic created successfully.');
     }
 
-    public function show(Clinic $clinic)
+    public function show($id)
     {
+        $clinic = Clinic::findOrFail($id);
         return view('clinic::show', compact('clinic'));
     }
 
-    public function edit(Clinic $clinic)
+    public function edit($id)
     {
+        $clinic = Clinic::findOrFail($id);
         return view('clinic::edit', compact('clinic'));
     }
 
-    public function update(UpdateClinicRequest $request, Clinic $clinic): RedirectResponse
+    public function update(UpdateClinicRequest $request, $id): RedirectResponse
     {
+        $clinic = Clinic::findOrFail($id);
         $clinic->update($request->validated());
         return redirect()->route('clinics.index')->with('success', 'Clinic updated successfully.');
     }
 
-    public function destroy(Clinic $clinic)
+    public function destroy($id)
     {
+        $clinic = Clinic::findOrFail($id);
         $clinic->delete();
         return redirect()->route('clinics.index')->with('success', 'Clinic deleted successfully.');
     }

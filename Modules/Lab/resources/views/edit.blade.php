@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Edit Lab Test</h1>
-        <form action="{{ route('lab_tests.update', $labTest) }}" method="POST">
+        <form action="{{ route('lab_tests.update', $labTest->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">

@@ -3,6 +3,8 @@
 namespace Modules\Pharmacy\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class UpdateDrugRequest extends FormRequest
 {
@@ -19,7 +21,13 @@ class UpdateDrugRequest extends FormRequest
             'name' => 'required|string|max:255',
             'brand_name' => 'required|string|max:255',
             'form' => 'required|string|max:255',
-            'code' => 'required|string|max:100|unique:drugs,code,' . $this->route('drug')->id,
+            'code' => [
+                'required',
+                'string',
+                'max:100',
+                // Apply the unique rule but exclude the current drug ID
+                // Rule::unique('drugs', 'code')->ignore($drug_id),
+            ],
         ];
     }
 

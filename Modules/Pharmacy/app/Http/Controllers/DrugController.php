@@ -29,24 +29,28 @@ class DrugController extends Controller
         return redirect()->route('drugs.index')->with('success', 'Drug added successfully.');
     }
 
-    public function show(Drug $drug)
+    public function show($id)
     {
+        $drug = Drug::findOrFail($id);
         return view('pharmacy::drugs.show', compact('drug'));
     }
 
-    public function edit(Drug $drug)
+    public function edit($id)
     {
+        $drug = Drug::findOrFail($id);
         return view('pharmacy::drugs.edit', compact('drug'));
     }
 
-    public function update(UpdateDrugRequest $request, Drug $drug): RedirectResponse
+    public function update(UpdateDrugRequest $request, $id): RedirectResponse
     {
+        $drug = Drug::findOrFail($id);
         $drug->update($request->validated());
         return redirect()->route('drugs.index')->with('success', 'Drug updated successfully.');
     }
 
-    public function destroy(Drug $drug): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
+        $drug = Drug::findOrFail($id);
         $drug->delete();
         return redirect()->route('drugs.index')->with('success', 'Drug deleted successfully.');
     }

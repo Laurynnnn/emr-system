@@ -26,25 +26,29 @@ class DiagnosisController extends Controller
         return redirect()->route('diagnoses.index')->with('success', 'Diagnosis created successfully.');
     }
 
-    public function show(Diagnosis $diagnosis)
+    public function show($id)
     {
+        $diagnosis = Diagnosis::findOrFail($id);
         return view('diagnosis::show', compact('diagnosis'));
     }
 
-    public function edit(Diagnosis $diagnosis)
+    public function edit($id)
     {
+        $diagnosis = Diagnosis::findOrFail($id);
         return view('diagnosis::edit', compact('diagnosis'));
     }
 
-    public function update(UpdateDiagnosisRequest $request, Diagnosis $diagnosis)
+    public function update(UpdateDiagnosisRequest $request, $id)
     {
+        $diagnosis = Diagnosis::findOrFail($id);
         $diagnosis->update($request->validated());
         return redirect()->route('diagnoses.index')->with('success', 'Diagnosis updated successfully.');
     }
 
 
-    public function destroy(Diagnosis $diagnosis)
+    public function destroy($id)
     {
+        $diagnosis = Diagnosis::findOrFail($id);
         $diagnosis->delete();
         return redirect()->route('diagnoses.index')->with('success', 'Diagnosis deleted successfully.');
     }

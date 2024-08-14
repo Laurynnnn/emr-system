@@ -15,8 +15,8 @@ class Triage extends Model
      */
     protected $fillable = [];
 
-    protected static function newFactory(): TriageFactory
-    {
-        //return TriageFactory::new();
-    }
+    // protected static function newFactory(): TriageFactory
+    // {
+    //     //return TriageFactory::new();
+    // }
 }
