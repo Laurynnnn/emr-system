@@ -13,9 +13,11 @@ use Modules\MedicalRecord\Http\Controllers\MedicalRecordController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::middleware(['auth'])->group(function () {
+    Route::resource('medical_records', MedicalRecordController::class);
+    Route::resource('patients.medical-records', MedicalRecordController::class);
+});
 
-Route::resource('medical_records', MedicalRecordController::class);
-Route::resource('patients.medical-records', MedicalRecordController::class);
 
 // Route::group([], function () {
 //     Route::resource('medicalrecord', MedicalRecordController::class)->names('medicalrecord');

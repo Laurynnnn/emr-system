@@ -154,4 +154,13 @@ class UserController extends Controller
         $user->restore();
         return redirect()->route('users.index')->with('success', 'User reactivated successfully');
     }
+
+    public function show_inactive($id)
+    {
+        // Fetch the trashed patient
+        $user = User::onlyTrashed()->findOrFail($id);
+
+        // Return the view with user data
+        return view('user::show_inactive', compact('user'));
+    }
 }

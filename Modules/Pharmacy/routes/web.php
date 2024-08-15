@@ -14,11 +14,10 @@ use Modules\Pharmacy\Http\Controllers\DrugController;
 |
 */
 
-// Route::group([], function () {
-//     Route::resource('pharmacy', PharmacyController::class)->names('pharmacy');
-// });
+Route::middleware(['auth'])->group(function () {
+    Route::resource('drugs', DrugController::class);
+    Route::get('/drug/inactive', [DrugController::class, 'inactive'])->name('drugs.inactive');
+    Route::patch('/drug/reactivate/{id}', [DrugController::class, 'reactivate'])->name('drugs.reactivate');
+    Route::get('drug/trashed/{id}', [DrugController::class, 'show_inactive'])->name('drugs.show_inactive');
+});
 
-Route::resource('drugs', DrugController::class);
-Route::get('/drug/inactive', [DrugController::class, 'inactive'])->name('drugs.inactive');
-Route::patch('/drug/reactivate/{id}', [DrugController::class, 'reactivate'])->name('drugs.reactivate');
-Route::get('drug/trashed/{id}', [DrugController::class, 'show_inactive'])->name('drugs.show_inactive');

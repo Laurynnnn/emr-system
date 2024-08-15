@@ -32,7 +32,7 @@
                                         <form action="{{ route('users.destroy', $user) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
                                         </form>
                                         @if($user->deleted_at)
                                             <form action="{{ route('users.reactivate', $user) }}" method="POST" style="display:inline;">

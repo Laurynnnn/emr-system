@@ -14,6 +14,10 @@ use Modules\Prescription\Http\Controllers\PrescriptionController;
 |
 */
 
-Route::group([], function () {
+Route::middleware(['auth'])->group(function () {
     Route::resource('prescription', PrescriptionController::class)->names('prescription');
 });
+
+// Route::group([], function () {
+//     Route::resource('prescription', PrescriptionController::class)->names('prescription');
+// });

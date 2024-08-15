@@ -34,7 +34,7 @@
                                         @method('PATCH')
                                         <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to reactivate this user?')">Reactivate</button>
                                     </form>
-                                    <a href="{{ route('users.show', $user) }}" class="btn btn-info btn-sm">View</a>
+                                    <a href="{{ route('users.show_inactive', $user) }}" class="btn btn-info btn-sm">View</a>
                                 </td>
                             </tr>
                         @endforeach
