@@ -4,6 +4,8 @@ namespace Modules\Patient\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Patient\Models\Patient;
+use Modules\Patient\Observers\PatientObserver;
 
 class PatientServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,7 @@ class PatientServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        Patient::observe(PatientObserver::class);
     }
 
     /**

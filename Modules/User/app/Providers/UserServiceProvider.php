@@ -4,6 +4,8 @@ namespace Modules\User\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\User\Models\User;
+use Modules\User\Observers\UserObserver;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,8 @@ class UserServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        User::observe(UserObserver::class);
+
     }
 
     /**

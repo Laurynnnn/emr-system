@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Created By</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -22,6 +23,7 @@
                 @foreach($clinics as $clinic)
                     <tr>
                         <td><a href="{{ route('clinics.show', $clinic->id) }}">{{ $clinic->name }}</a></td>
+                        <td>{{ $clinic->createdBy ? $clinic->createdBy->name : 'N/A' }}</td>
                         <td>
                             <a href="{{ route('clinics.show', $clinic->id) }}" class="btn btn-info btn-sm">View</a>
                             <a href="{{ route('clinics.edit', $clinic->id) }}" class="btn btn-warning btn-sm">Edit</a>

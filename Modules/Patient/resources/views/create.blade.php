@@ -86,8 +86,6 @@
                     <option value="sister" {{ old('next_of_kin_relationship') == 'sister' ? 'selected' : '' }}>Sister</option>
                     <option value="daughter" {{ old('next_of_kin_relationship') == 'daughter' ? 'selected' : '' }}>Daughter</option>
                     <option value="son" {{ old('next_of_kin_relationship') == 'son' ? 'selected' : '' }}>Son</option>
-                    <option value="uncle" {{ old('next_of_kin_relationship') == 'uncle' ? 'selected' : '' }}>Uncle</option>
-                    <option value="aunt" {{ old('next_of_kin_relationship') == 'aunt' ? 'selected' : '' }}>Aunt</option>
                 </select>
                 @error('next_of_kin_relationship')
                 <div class="alert alert-danger" role="alert">{{ $message }}</div>

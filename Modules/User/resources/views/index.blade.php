@@ -16,6 +16,7 @@
                                 <th>Email</th>
                                 <th>Username</th>
                                 <th>Role</th>
+                                <th>Created By</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -26,6 +27,8 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ ucfirst($user->role) }}</td>
+                                    {{-- <td>{{ $user->created_by ? $user->created_by : 'N/A' }}</td> --}}
+                                    <td>{{ $user->createdBy ? $user->createdBy->name : 'N/A' }}</td>
                                     <td>
                                         <a href="{{ route('users.edit', $user) }}" class="btn btn-warning btn-sm">Edit</a>
                                         <a href="{{ route('users.show', $user) }}" class="btn btn-info btn-sm">View</a>

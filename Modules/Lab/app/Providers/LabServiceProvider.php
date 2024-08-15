@@ -4,6 +4,8 @@ namespace Modules\Lab\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Lab\Models\LabTest;
+use Modules\Lab\Observers\LabTestObserver;
 
 class LabServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,7 @@ class LabServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        LabTest::observe(LabTestObserver::class);
     }
 
     /**

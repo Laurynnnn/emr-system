@@ -19,6 +19,7 @@
                     <th>Brand Name</th>
                     <th>Form</th>
                     <th>Code</th>
+                    <th>Created By</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -29,6 +30,7 @@
                         <td>{{ $drug->brand_name }}</td>
                         <td>{{ $drug->form }}</td>
                         <td>{{ $drug->code }}</td>
+                        <td>{{ $drug->createdBy ? $drug->createdBy->name : 'N/A' }}</td>
                         <td>
                             <a href="{{ route('drugs.show', $drug->id) }}" class="btn btn-info btn-sm">View</a>
                             <a href="{{ route('drugs.edit', $drug->id) }}" class="btn btn-warning btn-sm">Edit</a>

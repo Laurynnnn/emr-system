@@ -15,6 +15,7 @@
                 <th>Date of Birth</th>
                 <th>Phone Number</th>
                 <th>Next of Kin Name</th>
+                <th>Created By</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,6 +28,7 @@
                 <td>{{ $patient->date_of_birth }}</td>
                 <td>{{ $patient->phone_number }}</td>
                 <td>{{ $patient->next_of_kin_name }}</td>
+                <td>{{ $patient->createdBy ? $patient->createdBy->name : 'N/A' }}</td>
                 <td>
                     <a href="{{ route('patients.show', $patient->id) }}" class="btn btn-info">View</a>
                     <a href="{{ route('patients.edit', $patient->id) }}" class="btn btn-primary">Edit</a>

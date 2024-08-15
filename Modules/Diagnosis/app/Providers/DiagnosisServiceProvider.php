@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Container\Attributes\Log;
 use Symfony\Polyfill\Intl\Idn\Info;
+use Modules\Diagnosis\Observers\DiagnosisObserver;
+use Modules\Diagnosis\Models\Diagnosis;
 
 class DiagnosisServiceProvider extends ServiceProvider
 {
@@ -28,6 +30,7 @@ class DiagnosisServiceProvider extends ServiceProvider
         DB::listen(function ($query) {
             \Illuminate\Support\Facades\Log::info($query->sql, $query->bindings);
         });
+        Diagnosis::observe(DiagnosisObserver::class);
     }
 
     /**

@@ -17,6 +17,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>ICD11 Code</th>
+                    <th>Created By</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -26,6 +27,7 @@
                         <td>{{ $diagnosis->id }}</td>
                         <td>{{ $diagnosis->name }}</td>
                         <td>{{ $diagnosis->icd11_code }}</td>
+                        <td>{{ $diagnosis->createdBy ? $diagnosis->createdBy->name : 'N/A' }}</td>
                         <td>
                             <a href="{{ route('diagnoses.show', $diagnosis) }}" class="btn btn-info btn-sm">View</a>
                             <a href="{{ route('diagnoses.edit', $diagnosis) }}" class="btn btn-warning btn-sm">Edit</a>

@@ -15,6 +15,7 @@
                                 <th>Name</th>
                                 <th>Duration (minutes)</th>
                                 <th>Authenticated</th>
+                                <th>Created By</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -24,6 +25,7 @@
                                     <td>{{ $labTest->name }}</td>
                                     <td>{{ $labTest->duration }}</td>
                                     <td>{{ $labTest->authenticated ? 'Yes' : 'No' }}</td>
+                                    <td>{{ $labTest->createdBy ? $labTest->createdBy->name : 'N/A' }}</td>
                                     <td>
                                         <a href="{{ route('lab_tests.show', $labTest) }}" class="btn btn-info btn-sm">View</a>
                                         <a href="{{ route('lab_tests.edit', $labTest) }}" class="btn btn-warning btn-sm">Edit</a>

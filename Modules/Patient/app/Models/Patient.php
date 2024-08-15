@@ -8,6 +8,7 @@ use Modules\Patient\Database\Factories\PatientFactory;
 use Modules\Appointment\Models\Appointment;
 use Modules\MedicalRecord\Models\MedicalRecord;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\User\Models\User;
 
 class Patient extends Model
 {
@@ -45,6 +46,20 @@ class Patient extends Model
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function deletedBy()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 
 }

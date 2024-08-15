@@ -108,7 +108,8 @@ class UserController extends Controller
     public function index()
     {
         // $users = User::whereNull('deleted_at')->get(); // Assuming 'deleted_at' is used for soft deletes
-        $users = User::all();
+        $users = User::with(['createdBy', 'updatedBy', 'deletedBy'])->get();
+        // $users = User::all();
         return view('user::index', compact('users'));
     }
 

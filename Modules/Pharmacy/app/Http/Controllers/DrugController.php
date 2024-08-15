@@ -14,6 +14,7 @@ class DrugController extends Controller
 {
     public function index()
     {
+        // $drugs = Drug::with(['createdBy', 'updatedBy', 'deletedBy'])->get();
         $drugs = Drug::paginate(10);
         return view('pharmacy::drugs.index', compact('drugs'));
     }

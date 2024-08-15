@@ -4,6 +4,8 @@ namespace Modules\Pharmacy\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Pharmacy\Models\Drug;
+use Modules\Pharmacy\Observers\DrugObserver;
 
 class PharmacyServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,8 @@ class PharmacyServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        Drug::observe(DrugObserver::class);
+
     }
 
     /**
