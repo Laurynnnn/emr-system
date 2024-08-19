@@ -17,7 +17,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Username</th>
-                            <th>Role</th>
+                            <th>Roles</th> <!-- Updated to show roles -->
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -27,7 +27,11 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->username }}</td>
-                                <td>{{ ucfirst($user->role) }}</td>
+                                <td>
+                                    @foreach($user->roles as $role)
+                                        <span class="badge bg-secondary">{{ ucfirst($role->name) }}</span>
+                                    @endforeach
+                                </td>
                                 <td>
                                     <form action="{{ route('users.reactivate', $user->id) }}" method="POST" class="d-inline">
                                         @csrf

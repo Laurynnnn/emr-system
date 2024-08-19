@@ -15,7 +15,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Username</th>
-                                <th>Role</th>
+                                <th>Roles</th>
                                 <th>Created By</th>
                                 <th>Actions</th>
                             </tr>
@@ -26,8 +26,11 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->username }}</td>
-                                    <td>{{ ucfirst($user->role) }}</td>
-                                    {{-- <td>{{ $user->created_by ? $user->created_by : 'N/A' }}</td> --}}
+                                    <td>
+                                        @foreach($user->roles as $role)
+                                            <span class="badge badge-primary">{{ $role->name }}</span>
+                                        @endforeach
+                                    </td>
                                     <td>{{ $user->createdBy ? $user->createdBy->name : 'N/A' }}</td>
                                     <td>
                                         <a href="{{ route('users.edit', $user) }}" class="btn btn-warning btn-sm">Edit</a>

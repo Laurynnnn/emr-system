@@ -13,10 +13,11 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:50|unique:users',
-            'username' => 'required|string|max:50|unique:users',
+            'email' => 'required|string|email|max:50|unique:users,email',
+            'username' => 'required|string|max:50|unique:users,username',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string', // Assuming 'role' is also a required field
+            'roles' => 'required|array', // Array of roles
+            'roles.*' => 'exists:roles,name', // Each role must exist in the roles table
         ];
     }
 
@@ -50,8 +51,9 @@ class StoreUserRequest extends FormRequest
             'password.string' => 'The password must be a string.',
             'password.min' => 'The password must be at least 8 characters.',
             'password.confirmed' => 'The password confirmation does not match.',
-            'role.required' => 'The role field is required.',
-            'role.string' => 'The role must be a string.',
+            'roles.required' => 'The roles field is required.',
+            'roles.array' => 'The roles field must be an array.',
+            'roles.*.exists' => 'The selected role is invalid.',
         ];
     }
 }

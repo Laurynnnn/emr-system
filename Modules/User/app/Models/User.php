@@ -11,10 +11,12 @@ use Modules\MedicalRecord\Models\MedicalRecord;
 use Modules\Appointment\Models\Appointment;
 // use Illuminate\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Models\Role;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     protected $fillable = [
         'name',
@@ -57,6 +59,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
+
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class, 'model_has_roles');
+    // }
 
     // protected static function newFactory(): UserFactory
     // {

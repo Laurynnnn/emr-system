@@ -23,8 +23,12 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <strong>Role:</strong>
-                    <p>{{ ucfirst($user->role) }}</p>
+                    <strong>Roles:</strong>
+                    <p>
+                        @foreach($user->roles as $role)
+                            <span class="badge badge-primary">{{ $role->name }}</span>
+                        @endforeach
+                    </p>
                 </div>
             </div>
             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">Edit</a>

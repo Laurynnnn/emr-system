@@ -37,19 +37,30 @@
         </div>
 
         <div class="form-group">
-            <label for="role">Role</label>
-            <select id="role" name="role" class="form-control" required>
-                <option value="doctor">Doctor</option>
-                <option value="nurse">Nurse</option>
-                <option value="surgeon">Surgeon</option>
-                <option value="lab_technician">Lab Technician</option>
-                <option value="administrator">Administrator</option>
-                <option value="pharmacist">Pharmacist</option>
+            <label for="roles">Roles</label>
+            <select id="roles" name="roles[]" class="form-control" multiple required>
+                @foreach($roles as $role)
+                    <option value="{{ $role->name }}" {{ in_array($role->name, old('roles', [])) ? 'selected' : '' }}>
+                        {{ $role->name }}
+                    </option>
+                @endforeach
             </select>
-            @error('role') <div class="text-danger">{{ $message }}</div> @enderror
+            @error('roles') <div class="text-danger">{{ $message }}</div> @enderror
         </div>
 
         <button type="submit" class="btn btn-primary">Register</button>
     </form>
 </div>
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#roles').select2({
+            tags: true, // Allow users to add new options
+            placeholder: "Select roles",
+            width: '100%' // Adjust the width as needed
+        });
+    });
+</script>
+@endsection
 @endsection

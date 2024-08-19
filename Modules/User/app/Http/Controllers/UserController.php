@@ -9,13 +9,16 @@ use Illuminate\Support\Facades\Hash;
 use Modules\User\Models\User;
 use Modules\User\Http\Requests\StoreUserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     // Show the registration form
     public function showRegistrationForm()
     {
-        return view('user::auth.register');
+        $roles = Role::all(); // Use Role::all() to get roles for multiple role selection
+
+        return view('user::auth.register', compact('roles'));
     }
 
     // Handle user registration
@@ -28,8 +31,11 @@ class UserController extends Controller
             'email' => $validated['email'],
             'username' => $validated['username'],
             'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
         ]);
+
+        // Assign roles to the user
+        $roles = $validated['roles'];
+        $user->syncRoles($roles);
 
         // Auth::login($user);
 
@@ -76,7 +82,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view('user::auth.edit', compact('user'));
+        $roles = Role::all(); // Include roles for multiple role selection
+
+        return view('user::auth.edit', compact('user', 'roles'));
     }
 
     // Handle user update
@@ -90,8 +98,11 @@ class UserController extends Controller
             'email' => $validated['email'],
             'username' => $validated['username'],
             'password' => isset($validated['password']) ? Hash::make($validated['password']) : $user->password,
-            'role' => $validated['role'],
         ]);
+
+        // Assign roles to the user
+        $roles = $validated['roles'];
+        $user->syncRoles($roles);
 
         return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
@@ -107,9 +118,7 @@ class UserController extends Controller
     // Show the list of active users
     public function index()
     {
-        // $users = User::whereNull('deleted_at')->get(); // Assuming 'deleted_at' is used for soft deletes
         $users = User::with(['createdBy', 'updatedBy', 'deletedBy'])->get();
-        // $users = User::all();
         return view('user::index', compact('users'));
     }
 
@@ -129,7 +138,9 @@ class UserController extends Controller
     // Show the form for adding a new user
     public function create()
     {
-        return view('user::auth.register');
+        $roles = Role::all(); // Use Role::all() to get roles for multiple role selection
+
+        return view('user::auth.register', compact('roles'));
     }
 
     // Handle adding a new user
@@ -137,13 +148,16 @@ class UserController extends Controller
     {
         $validated = $request->validated();
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'username' => $validated['username'],
             'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
         ]);
+
+        // Assign roles to the user
+        $roles = $validated['roles'];
+        $user->syncRoles($roles);
 
         return redirect()->route('users.index')->with('success', 'User created successfully');
     }
@@ -158,10 +172,7 @@ class UserController extends Controller
 
     public function show_inactive($id)
     {
-        // Fetch the trashed patient
         $user = User::onlyTrashed()->findOrFail($id);
-
-        // Return the view with user data
         return view('user::show_inactive', compact('user'));
     }
 }

@@ -13,10 +13,11 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'exists:users,email,' . $this->user->id],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $this->user->id],
             'username' => ['required', 'string', 'max:255', 'unique:users,username,' . $this->user->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'in:doctor,nurse,surgeon,lab_technician,administrator,pharmacist'],
+            'roles' => ['required', 'array'], // Array of roles
+            'roles.*' => 'exists:roles,name', // Each role must exist in the roles table
         ];
     }
 
@@ -40,7 +41,7 @@ class UpdateUserRequest extends FormRequest
             'email.required' => 'The email field is required.',
             'email.email' => 'The email must be a valid email address.',
             'email.max' => 'The email may not be greater than 255 characters.',
-            'email.exists' => 'The email does not exist in our records.',
+            'email.unique' => 'The email has already been taken.',
             'username.required' => 'The username field is required.',
             'username.string' => 'The username must be a string.',
             'username.max' => 'The username may not be greater than 255 characters.',
@@ -48,8 +49,9 @@ class UpdateUserRequest extends FormRequest
             'password.string' => 'The password must be a string.',
             'password.min' => 'The password must be at least 8 characters.',
             'password.confirmed' => 'The password confirmation does not match.',
-            'role.required' => 'The role field is required.',
-            'role.in' => 'The selected role is invalid.',
+            'roles.required' => 'The roles field is required.',
+            'roles.array' => 'The roles field must be an array.',
+            'roles.*.exists' => 'The selected role is invalid.',
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 use Modules\User\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Modules\User\Http\Controllers\RolePermissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,16 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([], function () {
-    Route::resource('users', UserController::class);
-});
+// Route::group([], function () {
+//     Route::resource('users', UserController::class);
+// });
 
 // Routes accessible to unauthenticated users
 Route::group(['middleware' => ['web']], function () {
-    // Registration Routes
-    Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [UserController::class, 'register'])->name('register');
-
     // Login Routes
     Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [UserController::class, 'login'])->name('login');
@@ -34,6 +31,10 @@ Route::group(['middleware' => ['web']], function () {
 
 // Routes accessible to authenticated users
 Route::group(['middleware' => ['web', 'auth']], function () {
+    // Registration Routes
+    Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [UserController::class, 'register'])->name('register');
+    
     // User Management Routes
     Route::resource('users', UserController::class);
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
@@ -43,6 +44,12 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('/user/inactive', [UserController::class, 'inactive'])->name('users.inactive');
     Route::patch('/user/reactivate/{id}', [UserController::class, 'reactivate'])->name('users.reactivate');
     Route::get('user/trashed/{id}', [UserController::class, 'show_inactive'])->name('users.show_inactive');
+
+     // Role Management Routes
+     Route::resource('roles', RolePermissionController::class);
+     Route::get('/roles/inactive', [RolePermissionController::class, 'inactive'])->name('roles.inactive');
+     Route::patch('/roles/reactivate/{id}', [RolePermissionController::class, 'reactivate'])->name('roles.reactivate');
+     Route::get('/roles/trashed/{id}', [RolePermissionController::class, 'show_Inactive'])->name('roles.show_inactive');
 });
 
 

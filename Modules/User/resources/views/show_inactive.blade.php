@@ -23,8 +23,12 @@
             </div>
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <strong>Role:</strong>
-                    <p>{{ ucfirst($user->role) }}</p>
+                    <strong>Roles:</strong>
+                    <p>
+                        @foreach($user->roles as $role)
+                            <span class="badge bg-secondary">{{ ucfirst($role->name) }}</span>
+                        @endforeach
+                    </p>
                 </div>
                 <div class="col-md-4">
                     <strong>Created At:</strong>
@@ -38,7 +42,7 @@
             <form action="{{ route('users.reactivate', $user->id) }}" method="POST" class="d-inline">
                 @csrf
                 @method('PATCH')
-                <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to reactivate this user?')">Activate</button>
+                <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to reactivate this user?')">Reactivate</button>
             </form>
         </div>
     </div>

@@ -4,7 +4,7 @@ namespace Modules\MedicalRecord\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\MedicalRecord\Models\MedicalRecord;
+use Modules\MedicalRecord\Models\medicalRecord;
 use Modules\Patient\Models\Patient;
 use Modules\Lab\Models\LabTest;
 use Modules\Diagnosis\Models\Diagnosis;
@@ -23,7 +23,7 @@ class MedicalRecordController extends Controller
         }
 
         $patient = Patient::findOrFail($patient_id);
-        $medicalRecords = MedicalRecord::where('patient_id', $patient_id)->paginate(10);
+        $medicalRecords = medicalRecord::where('patient_id', $patient_id)->paginate(10);
 
         return view('medicalrecord::index', compact('patient', 'medicalRecords'));
     }
@@ -54,7 +54,7 @@ class MedicalRecordController extends Controller
             'outcome' => 'required|in:admitted,died,referred,discharged',
         ]);
 
-        $medicalRecord = MedicalRecord::create([
+        $medicalRecord = medicalRecord::create([
             'patient_id' => $request->input('patient_id'),
             'doctor_id' => $request->input('doctor_id'),
             'symptoms' => $request->input('symptoms'),
@@ -70,7 +70,7 @@ class MedicalRecordController extends Controller
     /**
      * Display the specified medical record.
      */
-    public function show(MedicalRecord $medicalRecord)
+    public function show(medicalRecord $medicalRecord)
     {
         return view('medicalrecord::show', compact('medicalRecord'));
     }
@@ -78,7 +78,7 @@ class MedicalRecordController extends Controller
     /**
      * Show the form for editing the specified medical record.
      */
-    public function edit(MedicalRecord $medicalRecord)
+    public function edit(medicalRecord $medicalRecord)
     {
         $labTests = LabTest::all();
         $diagnoses = Diagnosis::all();
@@ -90,7 +90,7 @@ class MedicalRecordController extends Controller
     /**
      * Update the specified medical record in storage.
      */
-    public function update(Request $request, MedicalRecord $medicalRecord)
+    public function update(Request $request, medicalRecord $medicalRecord)
     {
         $request->validate([
             'symptoms' => 'required|string',
@@ -114,7 +114,7 @@ class MedicalRecordController extends Controller
     /**
      * Remove the specified medical record from storage.
      */
-    public function destroy(MedicalRecord $medicalRecord)
+    public function destroy(medicalRecord $medicalRecord)
     {
         $medicalRecord->delete();
 
