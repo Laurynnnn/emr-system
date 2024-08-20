@@ -10,16 +10,17 @@ use Modules\User\Models\User;
 use Modules\User\Http\Requests\StoreUserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Spatie\Permission\Models\Role;
+use Illuminate\Routing\Controllers\HasMiddleware;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
-    // Show the registration form
-    public function showRegistrationForm()
-    {
-        $roles = Role::all(); // Use Role::all() to get roles for multiple role selection
+    // // Show the registration form
+    // public function showRegistrationForm()
+    // {
+    //     $roles = Role::all(); // Use Role::all() to get roles for multiple role selection
 
-        return view('user::auth.register', compact('roles'));
-    }
+    //     return view('user::auth.register', compact('roles'));
+    // }
 
     // Handle user registration
     public function register(StoreUserRequest $request)
@@ -82,7 +83,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        $roles = Role::all(); // Include roles for multiple role selection
+        $roles = Role::pluck('name', 'name')->all(); // Include roles for multiple role selection
+
 
         return view('user::auth.edit', compact('user', 'roles'));
     }
@@ -93,6 +95,8 @@ class UserController extends Controller
         $validated = $request->validated();
         $user = User::findOrFail($id);
 
+        // dd($user);
+
         $user->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
@@ -100,9 +104,14 @@ class UserController extends Controller
             'password' => isset($validated['password']) ? Hash::make($validated['password']) : $user->password,
         ]);
 
+        // dd($user);
+
+
         // Assign roles to the user
         $roles = $validated['roles'];
         $user->syncRoles($roles);
+
+        // dd($user);
 
         return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
