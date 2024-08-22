@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('username')->nullable();
-            $table->string('role')->default('Admin');
-            
+        Schema::table('permissions', function (Blueprint $table) {
+            $table->foreignId('category_id')->nullable()->constrained('permission_categories')->onDelete('set null');
         });
     }
 
@@ -23,9 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('username');
-            $table->dropColumn('role');        
+        Schema::table('permissions', function (Blueprint $table) {
+            $table->dropForeign(['category_id']);
+            $table->dropColumn('category_id');
         });
     }
 };

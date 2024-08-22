@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Lab\Models\LabTest;
 use Modules\Diagnosis\Models\Diagnosis;
 
-class medicalRecord extends Model
+class MedicalRecord extends Model
 {
     use HasFactory, SoftDeletes;
 

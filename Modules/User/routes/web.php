@@ -30,7 +30,8 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 // Routes accessible to authenticated users
-Route::group(['middleware' => ['web', 'auth']], function () {
+// Route::group(['middleware' => ['web', 'auth', 'permission:manage users']], function () {
+Route::group(['middleware' => ['web', 'auth',]], function () {
     // Registration Routes
     Route::get('/register', [UserController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [UserController::class, 'register'])->name('register');
@@ -47,9 +48,9 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
      // Role Management Routes
      Route::resource('roles', RolePermissionController::class);
-     Route::get('/roles/inactive', [RolePermissionController::class, 'inactive'])->name('roles.inactive');
-     Route::patch('/roles/reactivate/{id}', [RolePermissionController::class, 'reactivate'])->name('roles.reactivate');
-     Route::get('/roles/trashed/{id}', [RolePermissionController::class, 'show_Inactive'])->name('roles.show_inactive');
+     Route::get('/role/inactive', [RolePermissionController::class, 'inactive'])->name('roles.inactive');
+     Route::patch('/role/reactivate/{id}', [RolePermissionController::class, 'reactivate'])->name('roles.reactivate');
+     Route::get('/role/trashed/{id}', [RolePermissionController::class, 'show_Inactive'])->name('roles.show_inactive');
 });
 
 

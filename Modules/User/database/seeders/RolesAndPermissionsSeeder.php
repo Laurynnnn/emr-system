@@ -5,72 +5,79 @@ namespace Modules\User\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Facades\DB;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run()
     {
-        // Define Permissions
-        $permissions = [
-            'view patients',
-            'manage appointments',
-            'write prescriptions',
-            'access medical records',
-            'administer medication',
-            'perform surgeries',
-            'access surgical records',
-            'view lab requests',
-            'manage lab tests',
-            'access lab results',
-            'manage users',
-            'assign roles',
-            'assign permissions',
-            'manage system settings',
-            'manage inventory',
-            'dispense medication',
-            'view prescriptions',
-        
-        ];
-
-        // Create Permissions
-        foreach ($permissions as $permission) {
-            Permission::firstOrCreate(['name' => $permission]);
-        }
-
-        // Define Roles and their Permissions
-        $roles = [
-            'doctor' => [
+        // Define Permissions by Category
+        $permissionsByCategory = [
+            'Patient Management' => [
                 'view patients',
-                'manage appointments',
-                'write prescriptions',
-                'access medical records'
+                'create patients',
+                'update patients',
+                'delete patients',
+                'reactivate patients',
             ],
-            'nurse' => [
-                'view patients',
-                'manage appointments',
-                'administer medication'
+            'Medical Records' => [
+                'view medical records',
+                'create medical records',
+                'update medical records',
+                'delete medical records',
+                'reactivate medical records',
             ],
-            'surgeon' => [
-                'view patients',
-                'manage appointments',
-                'perform surgeries',
-                'access surgical records'
+            'Lab Management' => [
+                'view lab tests',
+                'create lab tests',
+                'update lab tests',
+                'delete lab tests',
+                'authenticate lab results',
             ],
-            'lab_technician' => [
-                'view lab requests',
-                'manage lab tests',
-                'access lab results'
+            'Prescription Management' => [
+                'view prescriptions',
+                'create prescriptions',
+                'update prescriptions',
+                'delete prescriptions',
+                'review prescriptions',
             ],
-            'administrator' => [
+            'Appointment Management' => [
+                'view appointments',
+                'create appointments',
+                'update appointments',
+                'delete appointments',
+            ],
+            'User Management' => [
                 'manage users',
                 'assign roles',
                 'assign permissions',
-                'manage system settings'
             ],
-            'pharmacist' => [
-                'view prescriptions',
-                'manage inventory',
-                'dispense medication'
+            'System Settings' => [
+                'manage system settings',
+            ],
+        ];
+
+        DB::transaction(function() use ($permissionsByCategory) {
+            // Create Permissions and associate them with Categories
+            foreach ($permissionsByCategory as $categoryName => $permissions) {
+                $categoryId = DB::table('permission_categories')->where('name', $categoryName)->value('id');
+
+                foreach ($permissions as $permission) {
+                    Permission::firstOrCreate([
+                        'name' => $permission,
+                        'category_id' => $categoryId,
+                    ]);
+                }
+            }
+        });
+
+        // Define Roles and their Permissions
+        $roles = [
+            'Admin' => [
+                'manage users',
+                'assign roles',
+                'assign permissions',
+                'manage system settings',
             ],
         ];
 

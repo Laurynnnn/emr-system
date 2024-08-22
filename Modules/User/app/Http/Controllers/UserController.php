@@ -2,6 +2,7 @@
 
 namespace Modules\User\Http\Controllers;
 
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ use Modules\User\Http\Requests\UpdateUserRequest;
 use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
-class UserController extends Controller implements HasMiddleware
+class UserController extends Controller
 {
     // // Show the registration form
     // public function showRegistrationForm()
@@ -21,6 +22,13 @@ class UserController extends Controller implements HasMiddleware
 
     //     return view('user::auth.register', compact('roles'));
     // }
+
+    public function __construct()
+    {
+        // Apply middleware for user management permissions
+        $this->middleware('permission:manage users', ['only' => ['index', 'show', 'create', 'store', 'edit', 'update', 'destroy', 'inactive', 'show_inactive', 'reactivate']]);
+    }
+
 
     // Handle user registration
     public function register(StoreUserRequest $request)

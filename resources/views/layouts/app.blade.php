@@ -149,7 +149,7 @@
                 </a>
                 <div class="collapse {{ request()->routeIs('roles.*') ? 'show' : '' }}" id="rolesSubmenu">
                     <a class="nav-link sub-link {{ request()->routeIs('roles.index') ? 'active' : '' }}" href="{{ route('roles.index') }}">Active Roles</a>
-                    <a class="nav-link sub-link {{ request()->routeIs('roles.inactive') ? 'active' : '' }}" href="{{ route('roles.inactive') }}">Inactive Roles</a>
+                    {{-- <a class="nav-link sub-link {{ request()->routeIs('roles.inactive') ? 'active' : '' }}" href="{{ route('roles.inactive') }}">Inactive Roles</a> --}}
                     <a class="nav-link sub-link {{ request()->routeIs('roles.create') ? 'active' : '' }}" href="{{ route('roles.create') }}">Add Role</a>
                 </div>
 
